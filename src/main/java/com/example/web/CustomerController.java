@@ -10,8 +10,12 @@ import com.example.domain.Customer;
 @RequestMapping("/api/customers")
 public class CustomerController {
 
-	@GetMapping("/all")
-	public List<Customer> getAllCustomers() {
-		
-	}
+//	@GetMapping("/all")
+//	public List<Customer> getAllCustomers() {
+//
+//	}
+    @GetMapping("/all")
+    public String getAllCustomers() {
+        return "Hello World";
+    }
 }
