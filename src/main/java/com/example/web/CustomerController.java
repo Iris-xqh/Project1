@@ -34,7 +34,7 @@ public class CustomerController {
 
     // get a customer by id
     @GetMapping("/customers/{id}")
-    public Optional<Customer> getCustomerById(@PathVariable Long id) {
+    public Optional<Customer> getCustomerById(@PathVariable("id") long id) {
         return customerRepository.findById(id);
     }
 
@@ -53,7 +53,7 @@ public class CustomerController {
 
     //update a customer
     @PutMapping("/customers/{id}")
-    public ResponseEntity<?> updateCustomer(@RequestBody Customer customer, @PathVariable Long id) {
+    public ResponseEntity<?> updateCustomer(@RequestBody Customer customer, @PathVariable("id") long id) {
         if(customer.getId() != id || customer.getName() == null || customer.getEmail() == null || customer.getPassword() == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -63,7 +63,7 @@ public class CustomerController {
 
     //delete a customer
     @DeleteMapping("/customers/{id}")
-    public ResponseEntity<?> deleteCustomer(@PathVariable Long id) {
+    public ResponseEntity<?> deleteCustomer(@PathVariable("id") long id) {
         customerRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }

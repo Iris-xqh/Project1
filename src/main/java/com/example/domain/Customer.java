@@ -9,7 +9,7 @@ public class Customer{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public int id;
+	public long id;
 
 	@Column(name = "CUSTOMER_NAME")
 	String name;
@@ -17,7 +17,7 @@ public class Customer{
 	String email;
 
 	//constructor
-	public Customer(int id, String name, String email, String password) {
+	public Customer(long id, String name, String email, String password) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
@@ -31,7 +31,7 @@ public class Customer{
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	
