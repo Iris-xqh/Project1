@@ -1,45 +1,72 @@
 package com.example.web;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import com.example.repository.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.domain.Customer;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/api")
 public class CustomerController {
+    @Autowired
+    CustomerRepository customerRepository;
 
-        //create a list of hard coded customers
-        private ArrayList<Customer> customers = new ArrayList<>(Arrays.asList(
-                new Customer(1, "John Doe", "xxx@outlook.com", "111password"),
-                new Customer(2, "Perry Wang", "jjj@gmail.com","222password"),
-                new Customer(3, "Tom Smith", "sss@yaahoo.com", "333password")));
+    //test api works
+    @GetMapping
+    public String test() {
+        return "API works";
+    }
 
-        //test api works
-        @GetMapping
-        public String test() {
-            return "API works";
+    // get all customers
+    @GetMapping("/customers")
+    public Iterable<Customer> getAllCustomers() {
+        return customerRepository.findAll();
+    }
+
+    // get a customer by id
+    @GetMapping("/customers/{id}")
+    public Optional<Customer> getCustomerById(@PathVariable Long id) {
+        return customerRepository.findById(id);
+    }
+
+    //creata a new customer
+    @PostMapping("/customers")
+    public ResponseEntity<?> createCustomer(@RequestBody Customer customer) {
+        if(customer.getName() == null || customer.getEmail() == null || customer.getPassword() == null) {
+            return ResponseEntity.badRequest().build();
         }
+        customerRepository.save(customer);
 
-        // get all customers
-        @GetMapping("/customers")
-        public ArrayList<Customer> getAllCustomers() {
-            return this.customers;
-        }
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(customer.getId()).toUri();
+        return ResponseEntity.created(location).build();
+    }
 
-        // get a customer by id
-        @GetMapping("/customers/{id}")
-        public Customer getCustomerById(@PathVariable Long id) {
-            for(int i = 0; i < customers.size(); i++) {
-                if(customers.get(i).getId() == id) {
-                    return customers.get(i);
-                }
-            }
-            return null;
+    //update a customer
+    @PutMapping("/customers/{id}")
+    public ResponseEntity<?> updateCustomer(@RequestBody Customer customer, @PathVariable Long id) {
+        if(customer.getId() != id || customer.getName() == null || customer.getEmail() == null || customer.getPassword() == null) {
+            return ResponseEntity.badRequest().build();
         }
-	}
+        customerRepository.save(customer);
+        return ResponseEntity.ok().build();
+    }
+
+    //delete a customer
+    @DeleteMapping("/customers/{id}")
+    public ResponseEntity<?> deleteCustomer(@PathVariable Long id) {
+        customerRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+}
 
 

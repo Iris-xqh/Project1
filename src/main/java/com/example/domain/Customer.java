@@ -1,18 +1,17 @@
 package com.example.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 
 @Entity
+@Table(name = "CUSTOMERS")
 public class Customer{
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int id;
-	
+
+	@Column(name = "CUSTOMER_NAME")
 	String name;
 	String password;
 	String email;
@@ -23,6 +22,9 @@ public class Customer{
 		this.name = name;
 		this.email = email;
 		this.password = password;
+	}
+
+	public Customer() {
 	}
 
 	public long getId() {
