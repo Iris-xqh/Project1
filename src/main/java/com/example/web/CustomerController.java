@@ -37,6 +37,11 @@ public class CustomerController {
     public Optional<Customer> getCustomerById(@PathVariable("id") long id) {
         return customerRepository.findById(id);
     }
+    // get a customer by name
+    @GetMapping("/customers/getbyname/{name}")
+    public Optional<Customer> getCustomerById(@PathVariable("name") String name) {
+        return customerRepository.findByName(name);
+    }
 
     //creata a new customer
     @PostMapping("/customers")
