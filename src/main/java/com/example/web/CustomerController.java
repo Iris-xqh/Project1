@@ -27,6 +27,7 @@ public class CustomerController {
     }
 
     // get all customers
+    //returns Iterable<Customer> which is a collection of Customer objects
     @GetMapping("/customers")
     public Iterable<Customer> getAllCustomers() {
         return customerRepository.findAll();
@@ -43,7 +44,7 @@ public class CustomerController {
         return customerRepository.findByName(name);
     }
 
-    //creata a new customer
+    //creat a new customer
     @PostMapping("/customers")
     public ResponseEntity<?> createCustomer(@RequestBody Customer customer) {
         if(customer.getName() == null || customer.getEmail() == null || customer.getPassword() == null) {
@@ -51,6 +52,7 @@ public class CustomerController {
         }
         customerRepository.save(customer);
 
+        //create a URI for the newly created customer
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(customer.getId()).toUri();
         return ResponseEntity.created(location).build();

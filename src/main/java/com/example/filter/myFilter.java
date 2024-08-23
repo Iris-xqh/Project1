@@ -12,9 +12,12 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+//sevlvet filter would be used to intercept the request and verify the token
 @Component
 @Order(1)
 public class myFilter implements Filter {
+
+    //override the doFilter method to verify the token
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         System.out.println("MyFilter");
