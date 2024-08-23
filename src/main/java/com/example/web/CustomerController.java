@@ -38,6 +38,7 @@ public class CustomerController {
     public Optional<Customer> getCustomerById(@PathVariable("id") long id) {
         return customerRepository.findById(id);
     }
+
     // get a customer by name
     @GetMapping("/customers/getbyname/{name}")
     public Optional<Customer> getCustomerById(@PathVariable("name") String name) {
@@ -47,7 +48,7 @@ public class CustomerController {
     //creat a new customer
     @PostMapping("/customers")
     public ResponseEntity<?> createCustomer(@RequestBody Customer customer) {
-        if(customer.getName() == null || customer.getEmail() == null || customer.getPassword() == null) {
+        if (customer.getName() == null || customer.getEmail() == null || customer.getPassword() == null) {
             return ResponseEntity.badRequest().build();
         }
         customerRepository.save(customer);
@@ -61,7 +62,7 @@ public class CustomerController {
     //update a customer
     @PutMapping("/customers/{id}")
     public ResponseEntity<?> updateCustomer(@RequestBody Customer customer, @PathVariable("id") long id) {
-        if(customer.getId() != id || customer.getName() == null || customer.getEmail() == null || customer.getPassword() == null) {
+        if (customer.getId() != id || customer.getName() == null || customer.getEmail() == null || customer.getPassword() == null) {
             return ResponseEntity.badRequest().build();
         }
         customerRepository.save(customer);
